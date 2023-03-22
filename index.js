@@ -149,10 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Setup the grid
     grid = generateGrid();
 
-    // Create some initial cells
-    grid[5][5] = 1;
-    grid[5][6] = 1;
-
     // Render the initial grid
     renderGrid();
 });

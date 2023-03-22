@@ -25,7 +25,7 @@ const drawGrid = () => {
 };
 
 
-const drawCells = (cellSize, grid, canvas) => {
+const drawCells = () => {
     // This will draw the cells that are alive onto the grid
     // Loop over each row
     for (let y = 0; y < grid.length; y++) {
@@ -51,7 +51,7 @@ const drawCells = (cellSize, grid, canvas) => {
 }
 
 
-const renderGrid = (cellSize, grid, canvas) => {
+const renderGrid = () => {
     // This function is called whenever we update the grid
     // and need to re-draw it.
     // It seems like re-drawing everything would be slow
@@ -64,11 +64,11 @@ const renderGrid = (cellSize, grid, canvas) => {
     drawGrid();
 
     // And then draw our current cells
-    drawCells(cellSize, grid, canvas);
+    drawCells();
 }
 
 
-const generateGrid = (cellsWide, cellsHigh) => {
+const generateGrid = () => {
     // Given a size, we generate our 2d array of cells
     // and return it
     let grid = [];
@@ -87,9 +87,6 @@ const generateGrid = (cellsWide, cellsHigh) => {
 const getNeighborCount = (x, y, grid) => {
     // Given a coordinate in our grid
     // count how many neighbors this cell has
-    // TODO: Move grid size stuff to top level as constants
-    const gridWidth = grid[0].length;
-    const gridHeight = grid.length;
 
     // This is where we will store our total neighbor count
     let neighborCount = 0;
@@ -97,7 +94,7 @@ const getNeighborCount = (x, y, grid) => {
     for (let gridY = y - 1; gridY < y + 2; gridY++) {
         for (let gridX = x - 1; gridX < x + 2; gridX++) {
             // Check to be sure we aren't checking outside the grid
-            if ((gridX >= gridWidth) || (gridY >= gridHeight)) {
+            if ((gridX >= cellsWide) || (gridY >= cellsHigh)) {
                 continue;
             }
 
@@ -124,8 +121,8 @@ const getNeighborCount = (x, y, grid) => {
 
 document.addEventListener("DOMContentLoaded", () => {
     canvas = new fabric.Canvas("canvas");
-    canvas.setWidth(cellSize * cellsWide + 1);
-    canvas.setHeight(cellSize * cellsHigh + 1);
+    canvas.setWidth(gridWidth + 1);
+    canvas.setHeight(gridHeight + 1);
 
     // Setup event handler to allow clicking 
     // on grid to turn on and off cells
@@ -146,18 +143,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Re-render the grid
-        renderGrid(cellSize, grid, canvas);
+        renderGrid();
     });
 
     // Setup the grid
-    grid = generateGrid(cellsWide, cellsHigh);
+    grid = generateGrid();
 
     // Create some initial cells
     grid[5][5] = 1;
     grid[5][6] = 1;
 
     // Render the initial grid
-    renderGrid(cellSize, grid, canvas);
+    renderGrid();
 });
 
 
@@ -203,5 +200,5 @@ document.getElementById("step").addEventListener("click", (event) => {
     grid = newGrid;
 
     // and then render it
-    renderGrid(cellSize, grid, canvas);
+    renderGrid();
 });

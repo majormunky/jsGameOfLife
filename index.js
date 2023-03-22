@@ -58,13 +58,45 @@ const generateGrid = (cellsWide, cellsHigh) => {
     return grid;
 }
 
+const getNeighborCount = (x, y, grid) => {
+    const gridWidth = grid[0].length;
+    const gridHeight = grid.length;
+    let neighborCount = 0;
+
+    for (let gridY = y - 1; gridY < y + 2; gridY++) {
+        for (let gridX = x - 1; gridX < x + 2; gridX++) {
+            if ((gridX > gridWidth) || (gridY > gridHeight)) {
+                continue;
+            }
+            if ((gridX == x) && (gridY == y)) {
+                continue;
+            }
+            if (grid[gridY][gridX] === 1) {
+                neighborCount++;
+            }
+        }
+    }
+
+    return neighborCount;
+}
+
+const step = (grid) => {
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     canvas.setWidth(cellSize * cellsWide + 1);
     canvas.setHeight(cellSize * cellsHigh + 1);
 
     grid = generateGrid(cellsWide, cellsHigh);
     grid[5][5] = 1;
+    grid[5][6] = 1;
 
     renderGrid(cellSize, grid, canvas);
 });
 
+document.getElementById("step").addEventListener("click", (event) => {
+    console.log("Step");
+
+    console.log(getNeighborCount(5, 5, grid));
+});

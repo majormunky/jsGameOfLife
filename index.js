@@ -2,11 +2,9 @@ const canvas = new fabric.Canvas("canvas");
 const cellSize = 20;
 const cellsWide = 20;
 const cellsHigh = 20;
+let grid;
 
-const drawGrid = (cellSize, cellsWide, cellsHigh, canvas) => {
-    const width = cellSize * cellsWide;
-    const height = cellSize * cellsHigh;
-
+const drawGrid = (cellSize, width, height, canvas) => {
     for (let y = 0; y <= height; y += cellSize) {
         let newLine = new fabric.Line([0, y, width, y], {
             stroke: "black"
@@ -22,22 +20,31 @@ const drawGrid = (cellSize, cellsWide, cellsHigh, canvas) => {
     }    
 };
 
-const drawCells = (cellSize, cells, canvas) => {
-    cells.forEach((cell) => {
-        const x = cell[0] * cellSize;
-        const y = cell[1] * cellSize;
+const renderGrid = (cellSize, grid, canvas) => {
+    const width = cellSize * grid[0].length;
+    const height = cellSize * grid.length;
+    drawGrid(cellSize, width, height, canvas);
+}
 
-        canvas.add(new fabric.Rect({
-            left: x,
-            top: y,
-            width: cellSize,
-            height: cellSize,
-            fill: "red"
-        }));
-    })
-};
+const generateGrid = (cellsWide, cellsHigh) => {
+    let grid = [];
 
-canvas.setWidth(cellSize * cellsWide + 1);
-canvas.setHeight(cellSize * cellsHigh + 1);
+    for (let y = 0; y < cellsHigh; y++) {
+        let row = [];
+        for (let x = 0; x < cellsWide; x++) {
+            row.push(0)
+        }
+        grid.push(row);
+    }
+    return grid;
+}
 
-drawGrid(cellSize, cellsWide, cellsHigh, canvas);
+document.addEventListener("DOMContentLoaded", () => {
+    canvas.setWidth(cellSize * cellsWide + 1);
+    canvas.setHeight(cellSize * cellsHigh + 1);
+
+    grid = generateGrid(cellsWide, cellsHigh);
+
+    renderGrid(cellSize, grid, canvas);
+});
+

@@ -198,3 +198,30 @@ document.getElementById("step").addEventListener("click", (event) => {
     // and then render it
     renderGrid();
 });
+
+
+document.getElementById("load-shape-button").addEventListener("click", () => {
+    const shapeSelect = document.getElementById("load-shape");
+    const selectedShape = shapeSelect.value;
+
+    // If we tried to load the shape on the empty selection, we can just return
+    if (selectedShape == "none") {
+        return;
+    }
+
+    // Reset the grid
+    grid = generateGrid()
+
+    if (selectedShape == "glider") {
+        grid[5][5] = 1;
+        grid[5][6] = 1;
+        grid[6][4] = 1;
+        grid[6][6] = 1;
+        grid[7][6] = 1;
+
+        shapeSelect.value = "none";
+    }
+
+    renderGrid();
+});
+

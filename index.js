@@ -2,20 +2,22 @@ let canvas;
 const cellSize = 20;
 const cellsWide = 20;
 const cellsHigh = 20;
+const gridHeight = cellSize * cellsHigh;
+const gridWidth = cellSize * cellsWide;
 let grid;
 
 
-const drawGrid = (cellSize, width, height, canvas) => {
+const drawGrid = () => {
     // This function draws the grid lines
-    for (let y = 0; y <= height; y += cellSize) {
-        let newLine = new fabric.Line([0, y, width, y], {
+    for (let y = 0; y <= gridHeight; y += cellSize) {
+        let newLine = new fabric.Line([0, y, gridWidth, y], {
             stroke: "black"
         });
         canvas.add(newLine);
     }
 
-    for (let x = 0; x <= width; x += cellSize) {
-        let newLine = new fabric.Line([x, 0, x, height], {
+    for (let x = 0; x <= gridWidth; x += cellSize) {
+        let newLine = new fabric.Line([x, 0, x, gridHeight], {
             stroke: "black"
         });
         canvas.add(newLine);
@@ -58,14 +60,8 @@ const renderGrid = (cellSize, grid, canvas) => {
     // First, clear the canvas
     canvas.clear();
 
-    // calculate our grid size
-    // TODO: This doesn't change, we should just have them
-    // as constants
-    const width = cellSize * grid[0].length;
-    const height = cellSize * grid.length;
-
     // Draw the grid
-    drawGrid(cellSize, width, height, canvas);
+    drawGrid();
 
     // And then draw our current cells
     drawCells(cellSize, grid, canvas);

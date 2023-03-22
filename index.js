@@ -40,7 +40,7 @@ const drawCells = (cellSize, grid, canvas) => {
 
 const renderGrid = (cellSize, grid, canvas) => {
     canvas.clear();
-    
+
     const width = cellSize * grid[0].length;
     const height = cellSize * grid.length;
     drawGrid(cellSize, width, height, canvas);
@@ -67,12 +67,18 @@ const getNeighborCount = (x, y, grid) => {
 
     for (let gridY = y - 1; gridY < y + 2; gridY++) {
         for (let gridX = x - 1; gridX < x + 2; gridX++) {
-            if ((gridX > gridWidth) || (gridY > gridHeight)) {
+            if ((gridX >= gridWidth) || (gridY >= gridHeight)) {
                 continue;
             }
+
+            if ((gridX < 0) || (gridY < 0)) {
+                continue;
+            }
+
             if ((gridX == x) && (gridY == y)) {
                 continue;
             }
+
             if (grid[gridY][gridX] === 1) {
                 neighborCount++;
             }
@@ -115,7 +121,27 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.getElementById("step").addEventListener("click", (event) => {
-    console.log("Step");
+    let newGrid = structuredClone(grid);
 
-    console.log(getNeighborCount(5, 5, grid));
+    for (let y = 0; y < grid.length; y++) {
+        for (let x = 0; x < grid[0].length; x++) {
+            let neighborCount = getNeighborCount(x, y, grid);
+            let cellStatus = grid[y][x];
+
+            if (cellStatus === 0) {
+                if (neighborCount === 3) {
+                    // this cell is now alive
+                    newGrid[y][x] = 1;
+                }
+            } else {
+                if ((neighborCount < 2) || (neighborCount > 3)) {
+                    // cell dies
+                    newGrid[y][x] = 0;
+                }
+            }
+        }
+    }
+
+    grid = newGrid;
+    renderGrid(cellSize, grid, canvas);
 });

@@ -1,4 +1,4 @@
-const canvas = new fabric.Canvas("canvas");
+let canvas;
 const cellSize = 20;
 const cellsWide = 20;
 const cellsHigh = 20;
@@ -39,6 +39,8 @@ const drawCells = (cellSize, grid, canvas) => {
 }
 
 const renderGrid = (cellSize, grid, canvas) => {
+    canvas.clear();
+    
     const width = cellSize * grid[0].length;
     const height = cellSize * grid.length;
     drawGrid(cellSize, width, height, canvas);
@@ -85,8 +87,25 @@ const step = (grid) => {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    canvas = new fabric.Canvas("canvas");
     canvas.setWidth(cellSize * cellsWide + 1);
     canvas.setHeight(cellSize * cellsHigh + 1);
+
+    canvas.on("mouse:down", (options) => {
+        const mx = options.pointer.x;
+        const my = options.pointer.y;
+
+        const cellX = parseInt(mx / cellSize);
+        const cellY = parseInt(my / cellSize);
+
+        if (grid[cellY][cellX] === 0) {
+            grid[cellY][cellX] = 1;
+        } else {
+            grid[cellY][cellX] = 0;
+        }
+
+        renderGrid(cellSize, grid, canvas);
+    });
 
     grid = generateGrid(cellsWide, cellsHigh);
     grid[5][5] = 1;

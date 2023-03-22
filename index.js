@@ -20,10 +20,29 @@ const drawGrid = (cellSize, width, height, canvas) => {
     }    
 };
 
+const drawCells = (cellSize, grid, canvas) => {
+    for (let y = 0; y < grid.length; y++) {
+        for (let x = 0; x < grid[0].length; x++) {
+            if (grid[y][x] === 1) {
+                let cellX = x * cellSize;
+                let cellY = y * cellSize;
+                canvas.add(new fabric.Rect({
+                    left: cellX,
+                    top: cellY,
+                    width: cellSize,
+                    height: cellSize,
+                    fill: "red"
+                }));
+            }
+        }
+    }
+}
+
 const renderGrid = (cellSize, grid, canvas) => {
     const width = cellSize * grid[0].length;
     const height = cellSize * grid.length;
     drawGrid(cellSize, width, height, canvas);
+    drawCells(cellSize, grid, canvas);
 }
 
 const generateGrid = (cellsWide, cellsHigh) => {
@@ -44,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.setHeight(cellSize * cellsHigh + 1);
 
     grid = generateGrid(cellsWide, cellsHigh);
+    grid[5][5] = 1;
 
     renderGrid(cellSize, grid, canvas);
 });

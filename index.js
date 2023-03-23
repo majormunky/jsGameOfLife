@@ -220,6 +220,24 @@ document.getElementById("load-shape-button").addEventListener("click", () => {
         grid[7][6] = 1;
 
         shapeSelect.value = "none";
+    } else if (selectedShape == "cross-hair") {
+        grid[5][5] = 1;
+        grid[6][5] = 1;
+        grid[7][5] = 1;
+
+        grid[9][3] = 1;
+        grid[9][2] = 1;
+        grid[9][1] = 1;
+
+        grid[9][7] = 1;
+        grid[9][8] = 1;
+        grid[9][9] = 1;
+
+        grid[11][5] = 1;
+        grid[12][5] = 1;
+        grid[13][5] = 1;
+
+        shapeSelect.value = "none";
     }
 
     renderGrid();

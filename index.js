@@ -238,6 +238,17 @@ document.getElementById("load-shape-button").addEventListener("click", () => {
         grid[13][5] = 1;
 
         shapeSelect.value = "none";
+    } else if (selectedShape == "random") {
+        // loop through each row of the grid
+        for (let y = 0; y < grid.length; y++) {
+            // loop through each cell of each row
+            for (let x = 0; x < grid[0].length; x++) {
+                let randNum = Math.random();
+                if (randNum > 0.5) {
+                    grid[y][x] = 1;
+                }
+            }
+        }
     }
 
     renderGrid();
@@ -246,7 +257,7 @@ document.getElementById("load-shape-button").addEventListener("click", () => {
 
 document.getElementById("load-random").addEventListener("click", () => {
     grid = generateGrid()
-    
+
     // loop through each row of the grid
     for (let y = 0; y < grid.length; y++) {
         // loop through each cell of each row

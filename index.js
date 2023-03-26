@@ -253,3 +253,11 @@ document.getElementById("load-shape-button").addEventListener("click", () => {
 
     renderGrid();
 });
+
+
+document.getElementById("resize-grid").addEventListener("click", () => {
+    let width = document.getElementById("grid-width").value;
+    let height = document.getElementById("grid-height").value;
+
+    console.log(width, height)
+});

@@ -7,6 +7,7 @@ const MAX_CELLS_HIGH = 100;
 let gridHeight = cellSize * cellsHigh;
 let gridWidth = cellSize * cellsWide;
 let grid;
+let intervalId;
 
 
 const drawGrid = () => {
@@ -157,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-document.getElementById("step").addEventListener("click", (event) => {
+const step = () => {
     // This takes the current grid and updates it for one step
     
     // First we have to make a copy of the grid
@@ -200,7 +201,11 @@ document.getElementById("step").addEventListener("click", (event) => {
 
     // and then render it
     renderGrid();
-});
+}
+
+
+
+document.getElementById("step").addEventListener("click", step);
 
 
 document.getElementById("load-shape-button").addEventListener("click", () => {
@@ -276,4 +281,28 @@ document.getElementById("resize-grid").addEventListener("click", () => {
 
     grid = generateGrid();
     renderGrid();
+});
+
+
+document.getElementById("auto-play").addEventListener("click", (event) => {
+    let speed = parseInt(document.getElementById("auto-speed").value);
+
+    intervalId = setInterval(step, speed);
+
+    // hide play button and show stop button
+    event.target.style.display = "none";
+
+    document.getElementById("auto-stop").style.display = "inline-block";
+});
+
+document.getElementById("auto-stop").addEventListener("click", (event) => {
+
+    if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+
+        event.target.style.display = "none";
+        document.getElementById("auto-play").style.display = "inline-block";
+
+    }
 });

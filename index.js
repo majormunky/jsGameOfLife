@@ -1,13 +1,16 @@
 let canvas;
-const cellSize = 20;
-const cellsWide = 20;
-const cellsHigh = 20;
-const gridHeight = cellSize * cellsHigh;
-const gridWidth = cellSize * cellsWide;
+let cellSize = 20;
+let cellsWide = 20;
+let cellsHigh = 20;
+const MAX_CELLS_WIDE = 100;
+const MAX_CELLS_HIGH = 100;
+let gridHeight = cellSize * cellsHigh;
+let gridWidth = cellSize * cellsWide;
 let grid;
 
 
 const drawGrid = () => {
+
     // This function draws the grid lines
     for (let y = 0; y <= gridHeight; y += cellSize) {
         let newLine = new fabric.Line([0, y, gridWidth, y], {
@@ -256,8 +259,21 @@ document.getElementById("load-shape-button").addEventListener("click", () => {
 
 
 document.getElementById("resize-grid").addEventListener("click", () => {
-    let width = document.getElementById("grid-width").value;
-    let height = document.getElementById("grid-height").value;
+    let width = parseInt(document.getElementById("grid-width").value);
+    let height = parseInt(document.getElementById("grid-height").value);
 
-    console.log(width, height)
+    if ((width > MAX_CELLS_WIDE) || (height > MAX_CELLS_WIDE)) {
+        alert("Unable to set width or height past the max");
+        return;
+    }
+
+    cellsWide = width;
+    cellsHigh = height;
+    gridWidth = cellsWide * cellSize + 1;
+    gridHeight = cellsHigh * cellSize + 1;
+    canvas.setWidth(gridWidth);
+    canvas.setHeight(gridHeight);
+
+    grid = generateGrid();
+    renderGrid();
 });

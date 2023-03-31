@@ -285,23 +285,32 @@ document.getElementById("resize-grid").addEventListener("click", () => {
 
 
 document.getElementById("auto-play").addEventListener("click", (event) => {
+    // Grab our speed from the drop down menu
     let speed = parseInt(document.getElementById("auto-speed").value);
 
+    // save the timer id so we can stop it later
     intervalId = setInterval(step, speed);
 
     // hide play button and show stop button
     event.target.style.display = "none";
 
+    // show the stop button
     document.getElementById("auto-stop").style.display = "inline-block";
 });
 
 document.getElementById("auto-stop").addEventListener("click", (event) => {
-
+    // Check first to be sure we have a timer id
     if (intervalId) {
+        // Clear the timer
         clearInterval(intervalId);
+
+        // reset our timer id back to null
         intervalId = null;
 
+        // Hide the stop button
         event.target.style.display = "none";
+
+        // and show the play button
         document.getElementById("auto-play").style.display = "inline-block";
 
     }
